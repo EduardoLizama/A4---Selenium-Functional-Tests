@@ -18,12 +18,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 
-
 public class AutomatedTests {
 
 	// Declaracion de variables
 	static WebDriver driver;		// Declaracion de webdriver a utilizar para las pruebas
 	
+	// Metodo para resetear a estado de cuenta anonima sin tener que cerrar el driver actual
+	// Con este metodo deslogueamos una cuenta logueada o, en caso de no haber cuenta logueada,
+	// logueamos con una cuenta de control y luego la deslogueamos.
 	static void resetLogin (WebDriver driver) {
 		
 		int timeout = 10;
@@ -78,6 +80,8 @@ public class AutomatedTests {
 		
 	}
 
+	// Metodo para verificar si existe una cuenta logueada
+	// Este metodo revisa si existe una cuenta logueada en la pagina y de haberla, la desloguea.
 	static void checkLogin (WebDriver driver) {
 		
 		int timeout = 10;
@@ -155,18 +159,58 @@ public class AutomatedTests {
 	//		Salida esperada test: Pagina de carrito vacio.
 	
 	// 7.- Test testForgotPassword
-	//		Escenario prueba: Navegarr desde el homepage hacia la pagina de login y luego seleccionar la opcion 
+	//		Escenario prueba: Navegar desde el homepage hacia la pagina de login y luego seleccionar la opcion 
 	//						  "olvide mi contraseña", luego llenar el campo de email y presionar el boton para terminar
 	//						  el proceso de recuperacion
 	//		Entradas test: Email.
 	//		Salida esperada test: Mensaje de confirmacion de recuperacion de contraseña.
 	
 	// 8.- Test testForgotPassword
-	//		Escenario prueba: Navegarr desde el homepage hacia la pagina de login y luego seleccionar la opcion 
-	//						  "olvide mi contraseña", luego llenar el campo de email y presionar el boton para terminar
+	//		Escenario prueba: Navegar desde el homepage hacia la pagina de login y luego seleccionar la opcion 
+	//						  "olvide mi contraseña", luego llenar el campo de email y presionar el boton para terminar.
 	//						  el proceso de recuperacion
 	//		Entradas test: Email.
 	//		Salida esperada test: Mensaje de confirmacion de recuperacion de contraseña.
+	
+	// 9.- Test testForgotPassword2
+	//		Escenario prueba: Navegar desde el homepage hacia la pagina de login y luego seleccionar la opcion 
+	//						  "olvide mi contraseña", luego llenar el campo de email (con un email no registrado en pagina) 
+	//						  y presionar el boton para terminar el proceso de recuperacion.
+	//		Entradas test: Email.
+	//		Salida esperada test: Mensaje de error (email invalido) de recuperacion de contraseña.
+	
+	// 9.- Test testPayment
+	//	Escenario prueba: Seleccionar desde el homepage el item 'Faded Short Sleeve T-shirts' y luego agregar
+	//					  al carrito a travez del boton correspondiente en la pagina del item en una cuenta anonima,
+	//					  presionar boton "proceed to checkout", iniciar y completar proceso de login, llenar campo de texo
+	//					  de instrucciones especiales, confirmar orden, presionar el boton para aceptar el ToS, presionar confirmar
+	//					  seleccionar medio de pago por banco terminando el proceso de pago.
+	//		Entradas test: Credenciales de login, texto de instrucciones, acciones de botones.
+	//		Salida esperada test: Mensaje de confirmacion de pago.
+	
+	// 10.- Test testContactUs
+	//		Escenario prueba: Navegar desde el homepage hacia la pagina de contacto, llenar los campos obligatorios y  
+	//						  y seleccionar el boton para confirmar el proceso de envio de mensaje.
+	//		Entradas test: Email, mensaje, seleccion de heading.
+	//		Salida esperada test: Mensaje de confirmacion de mensaje enviado.
+	
+	// 11.- Test testSearch
+	//		Escenario prueba: Llenar el campo de texto del buscador de homepage con la palabra "dress" y presionar el boton
+	//						  de busqueda. 
+	//		Entradas test: Query de busqueda.
+	//		Salida esperada test: Pantalla de busqueda con los 7 items especificos de la categoria "dress" o con "dress" 
+	//							  en el nombre/descripcion.
+
+	// 12.- Test testRegister2
+	//		Escenario prueba: Igual al proceso de registro de test 1 pero con un email que ya esta registrado. 
+	//		Entradas test: Email ya registrado.
+	//		Salida esperada test: Mensaje de error (email ya registrado) de registro.
+	
+	// 13.- Test testLogin2
+	//		Escenario prueba: Igual al proceso de login de test 2 pero con credenciales invalidas.
+	//		Entradas test: Credenciales de login invalidas.
+	//		Salida esperada test: Mensaje de error (credenciales invalidas) de login.
+
 	
 	// Test Register
 	@Test
@@ -195,8 +239,8 @@ public class AutomatedTests {
 		button = driver.findElement(By.className("login"));
 		button.click();
 		email = driver.findElement(By.id("email_create"));
-		//email.sendKeys("G6-TestEmail001@gmail.com");
-		email.sendKeys("randommail12312310@gmail.com");
+		//email.sendKeys("G6-RTestEmail001@gmail.com");
+		email.sendKeys("randommail12312314@gmail.com");
 		button = driver.findElement(By.id("SubmitCreate"));
 		button.click();
 		
@@ -246,6 +290,8 @@ public class AutomatedTests {
 	}
 
 	// Test Login
+	
+	// Test Login
 	@Test
 	public void testLogin() {
 		
@@ -285,13 +331,14 @@ public class AutomatedTests {
 	}
 
 	// Add element to cart
+	
+	// Test Add to Cart
 	@Test
 	public void testAddCart() {
 		
 		int timeout = 10;
 		
 		WebElement button;
-		WebElement table;
 		WebElement waitflag;
 		WebDriverWait wait = new WebDriverWait(driver, timeout);
 		
@@ -313,6 +360,8 @@ public class AutomatedTests {
 	}
 
 	// Remove element from cart
+	
+	// Test Remove from Cart
 	@Test
 	public void testRemoveCart() {
 		
@@ -391,6 +440,8 @@ public class AutomatedTests {
 	}
 	
 	// Test Add Quantity Cart-Item
+	
+	// Test Add Quantity of Item
 	@Test
 	public void testAddQuantity() {
 		
@@ -473,6 +524,8 @@ public class AutomatedTests {
 	}
 	
 	// Test Remove Quantity Cart
+	
+	// Test Remove Quantity of Item
 	@Test
 	public void testRemoveQuantity() {
 		
@@ -552,6 +605,8 @@ public class AutomatedTests {
 	}
 	
 	// Test Forgot Password
+	
+	// Test Forgot Password
 	@Test
 	public void testForgotPassword() {
 		
@@ -604,8 +659,9 @@ public class AutomatedTests {
 	}
 	
 	// Test Forgot Password (invalid Email)
-	@Test
-		
+	
+	// Test Forgot Password with invalid email
+	@Test	
 	public void testForgotPassword2() {
 			
 		int timeout = 5;
@@ -657,8 +713,10 @@ public class AutomatedTests {
 	}
 	
 	// Process Payment
+	
+	// Test Payment
 	@Test
-	public void testPayement() {
+	public void testPayment() {
 		
 		int timeout = 5;
 		
@@ -727,6 +785,8 @@ public class AutomatedTests {
 	}
 	
 	// Test Contact us
+	
+	// Test ContactUs
 	@Test
 	public void testContactUs() {
 		
@@ -860,6 +920,7 @@ public class AutomatedTests {
 		assertEquals (actualError,expectedError);
 		
 	}
+	
 	// Test Login with wrong credentials
 	@Test
 	public void testLogin2() {
@@ -897,12 +958,13 @@ public class AutomatedTests {
 		assertEquals(actualError, expectedError);
 		
 	}
-	/*
+	
+	// Metodo para finalizar el testeo
+	// Luego de realizar todos los tests se cierra el driver.
 	@AfterClass
 	public static void Finalize()
 	{
 		driver.quit();
 	}
-	*/
 	
 }
